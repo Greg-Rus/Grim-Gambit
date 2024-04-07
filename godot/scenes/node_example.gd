@@ -12,6 +12,9 @@ func save_data() -> Dictionary:
 		"hello": "Hello Godot!"
 	}
 	
+func _ready():
+	SoundService.playMusic(Constants.MusicTracks.DungeonAmbience)
+	
 func _process(delta):
 	if Input.is_action_pressed("ui_right"):
 		position.x += 100 * delta

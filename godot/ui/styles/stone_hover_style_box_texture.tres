@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://35jqgv0fj21w"]
+
+[ext_resource type="Texture2D" uid="uid://bwbnktflon3ce" path="res://ui/art/Spritesheet_Animation_UI_Stone_Button_02a.png" id="1_glomn"]
+
+[resource]
+texture = ExtResource("1_glomn")
+texture_margin_left = 16.0
+texture_margin_top = 9.0
+texture_margin_right = 16.0
+texture_margin_bottom = 11.0
+region_rect = Rect2(192, 256, 96, 32)

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnh0h3mwoa5g7"]
+
+[ext_resource type="Script" path="res://services/soundService.gd" id="1_1tr8h"]
+[ext_resource type="AudioStream" uid="uid://cenguv2kfbpqg" path="res://music/DarkLandsLoop.ogg" id="2_12p4m"]
+[ext_resource type="AudioStream" uid="uid://b4sebkew2fltw" path="res://music/CaveLoop03.ogg" id="3_m2e37"]
+
+[node name="SoundService" type="Node"]
+script = ExtResource("1_1tr8h")
+menuMusic = ExtResource("2_12p4m")
+dungeonAmbiencee = ExtResource("3_m2e37")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_12p4m")
+bus = &"Music"
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_12p4m")
+bus = &"Sound"
