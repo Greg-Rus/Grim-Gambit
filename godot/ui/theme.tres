@@ -1,7 +1,15 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://d22mpqutkotsu"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://d22mpqutkotsu"]
 
 [ext_resource type="FontFile" uid="uid://selwnf7dqsrw" path="res://ui/art/Toriko.ttf" id="1_jg7v6"]
 [ext_resource type="Texture2D" uid="uid://bwbnktflon3ce" path="res://ui/art/Spritesheet_Animation_UI_Stone_Button_02a.png" id="1_oxwvs"]
+[ext_resource type="Texture2D" uid="uid://18c6tmg21dbx" path="res://ui/styles/stone_grabber.tres" id="3_je8tc"]
+[ext_resource type="Texture2D" uid="uid://be3mc21rf7tpi" path="res://ui/art/Spritesheet_UI_Stone.png" id="4_6rv8f"]
+[ext_resource type="StyleBox" uid="uid://35jqgv0fj21w" path="res://ui/styles/stone_hover_style_box_texture.tres" id="4_sr87n"]
+[ext_resource type="StyleBox" uid="uid://ddul1t7pfkchu" path="res://ui/styles/stone_hover_pressed_style_box_texture.tres" id="5_5df4o"]
+[ext_resource type="StyleBox" uid="uid://cknlog83t63dd" path="res://ui/styles/stone_normal_style_box_texture.tres" id="5_ws0vu"]
+[ext_resource type="StyleBox" uid="uid://d4i3imohkr5hs" path="res://ui/styles/stone_pressed_style_box_texture.tres" id="6_j0n1x"]
+[ext_resource type="StyleBox" uid="uid://ch7fe42sgb6vv" path="res://ui/styles/stone_slider_style_box_texture.tres" id="8_c2jwv"]
+[ext_resource type="StyleBox" uid="uid://bxhgf0winwxw6" path="res://ui/styles/stone_slider_fill_style_box_texture.tres" id="9_kwnmj"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e0gdn"]
 texture = ExtResource("1_oxwvs")
@@ -27,6 +35,26 @@ texture_margin_right = 16.0
 texture_margin_bottom = 6.0
 region_rect = Rect2(96, 256, 96, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkjt0"]
+atlas = ExtResource("4_6rv8f")
+region = Rect2(544, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sb7rv"]
+atlas = ExtResource("4_6rv8f")
+region = Rect2(544, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b42ay"]
+atlas = ExtResource("4_6rv8f")
+region = Rect2(588, 268, 9, 7)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fg87k"]
+texture = ExtResource("4_6rv8f")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+region_rect = Rect2(224, 32, 96, 96)
+
 [resource]
 Button/colors/font_color = Color(0.152941, 0.223529, 0.360784, 1)
 Button/colors/font_focus_color = Color(0.156863, 0.298039, 0.580392, 1)
@@ -38,3 +66,22 @@ Button/fonts/font = ExtResource("1_jg7v6")
 Button/styles/hover = SubResource("StyleBoxTexture_e0gdn")
 Button/styles/normal = SubResource("StyleBoxTexture_vl817")
 Button/styles/pressed = SubResource("StyleBoxTexture_0h2m2")
+CheckButton/colors/font_color = Color(0.152941, 0.223529, 0.360784, 1)
+CheckButton/colors/font_hover_color = Color(0.156863, 0.298039, 0.580392, 1)
+CheckButton/colors/font_hover_pressed_color = Color(0.121569, 0.337255, 0.768627, 1)
+CheckButton/colors/font_pressed_color = Color(0.121569, 0.337255, 0.768627, 1)
+CheckButton/icons/checked = SubResource("AtlasTexture_kkjt0")
+CheckButton/icons/unchecked = SubResource("AtlasTexture_sb7rv")
+CheckButton/styles/hover = ExtResource("4_sr87n")
+CheckButton/styles/hover_pressed = ExtResource("5_5df4o")
+CheckButton/styles/normal = ExtResource("5_ws0vu")
+CheckButton/styles/pressed = ExtResource("6_j0n1x")
+HSlider/constants/grabber_offset = -5
+HSlider/icons/grabber = ExtResource("3_je8tc")
+HSlider/icons/grabber_disabled = ExtResource("3_je8tc")
+HSlider/icons/grabber_highlight = ExtResource("3_je8tc")
+HSlider/styles/grabber_area = ExtResource("9_kwnmj")
+HSlider/styles/grabber_area_highlight = ExtResource("9_kwnmj")
+HSlider/styles/slider = ExtResource("8_c2jwv")
+OptionButton/icons/arrow = SubResource("AtlasTexture_b42ay")
+PopupMenu/styles/panel = SubResource("StyleBoxTexture_fg87k")

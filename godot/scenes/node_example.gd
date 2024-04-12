@@ -13,7 +13,7 @@ func save_data() -> Dictionary:
 	}
 	
 func _ready():
-	SoundService.playMusic(Constants.MusicTracks.DungeonAmbience)
+	SoundService.play_music(Constants.MusicTracks.DungeonAmbience)
 	
 func _process(delta):
 	if Input.is_action_pressed("ui_right"):

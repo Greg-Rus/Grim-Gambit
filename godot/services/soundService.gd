@@ -9,7 +9,7 @@ extends Node
 
 var currentMusicTrack : Constants.MusicTracks = Constants.MusicTracks.None
 
-func playMusic(track : Constants.MusicTracks):
+func play_music(track : Constants.MusicTracks):
 	if(track == currentMusicTrack):
 		return
 	musicPlayer.stream = getMusicTrack(track)
