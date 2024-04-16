@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckwcca8ykokjr"]
+
+[ext_resource type="Texture2D" uid="uid://i3lk8wxrca66" path="res://ui/art/UnitSelectionIndicator.png" id="1_7g4rr"]
+
+[node name="UnitSelectionIndicator" type="Sprite2D"]
+texture = ExtResource("1_7g4rr")
+region_rect = Rect2(480, 288, 32, 32)

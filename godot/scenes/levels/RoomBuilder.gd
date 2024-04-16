@@ -1,20 +1,19 @@
 extends Node2D
-class_name Level
+class_name RoomBuilder
 
 @onready var tile_map : TileMap = $LevelTileMap
 @export var room_dimensions : Vector2i = Vector2i(8,8)
 @export var white_ground : Vector2i = Vector2i(6,0)
 @export var black_ground : Vector2i = Vector2i(6,1)
 @export var walls_center : Vector2i = Vector2i(4,4)
-
-func _ready():
-	tile_map.clear()
-	make_room()
-	tile_map.position = Vector2(room_dimensions) * 0.5 * 16 * -1
 	
-func make_room():
-	for x in room_dimensions.x:
-		for y in room_dimensions.y:
+func make_room(room_size : Vector2i, room_position : Vector2):
+	tile_map.clear()
+	self.room_dimensions = room_size
+	tile_map.position = room_position
+	
+	for x in room_size.x:
+		for y in room_size.y:
 			var cell_position = Vector2i(x,y)
 			var tile_id = get_ground_tile(cell_position)
 			tile_map.set_cell(0, cell_position, 0, tile_id)
