@@ -1,7 +1,7 @@
 extends Node2D
 class_name RoomBuilder
 
-@onready var tile_map : TileMap = $LevelTileMap
+@onready var tile_map : TileMap = %TileMap
 @export var room_dimensions : Vector2i = Vector2i(8,8)
 @export var white_ground : Vector2i = Vector2i(6,0)
 @export var black_ground : Vector2i = Vector2i(6,1)
