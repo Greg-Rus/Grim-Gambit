@@ -75,6 +75,7 @@ sprite_frames = SubResource("SpriteFrames_tgs0t")
 animation = &"walk"
 frame_progress = 0.965507
 script = ExtResource("1_pfvtn")
+movement_pattern = 1
 
 [node name="Area2D" type="Area2D" parent="."]
 

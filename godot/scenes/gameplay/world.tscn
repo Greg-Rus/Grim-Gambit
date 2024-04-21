@@ -8,11 +8,6 @@
 [node name="World" type="Node2D"]
 script = ExtResource("1_1vtcp")
 
-[node name="UnitSelectionIndicator" parent="." instance=ExtResource("2_ml04k")]
-unique_name_in_owner = true
-visible = false
-z_index = 1
-
 [node name="RoomBuilder" parent="." instance=ExtResource("3_uj6mv")]
 unique_name_in_owner = true
 
@@ -20,3 +15,8 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 tile_set = ExtResource("4_85msr")
 format = 2
+
+[node name="UnitSelectionIndicator" parent="TileMap" instance=ExtResource("2_ml04k")]
+unique_name_in_owner = true
+visible = false
+z_index = 1
