@@ -5,7 +5,7 @@ class_name WorldManager
 
 @onready var room_builder : RoomBuilder = %RoomBuilder
 @onready var unit_selection_indicator : Sprite2D = %UnitSelectionIndicator
-@onready var tile_map : TileMap = %TileMap
+@onready var grid : Grid = %TileMap
 @onready var test_unit : PackedScene = preload("res://units/unit.tscn")
 @onready var walkable_overlay : PackedScene = preload("res://nodes/tile_overlay.tscn")
 var cell_pixel_size = 16
@@ -14,10 +14,6 @@ var grid_dimensions : Vector2i
 var entities = {}
 var selected_unit : Unit
 var spwned_walkable_overlays : Array
-
-class grid_cell:
-	var unit
-	var environment
 	
 func _ready():
 	grid_dimensions = room_dimensions - Vector2i.ONE
@@ -33,18 +29,17 @@ func _input(event):
 		
 func handle_mouse_click(event : InputEventMouseButton):
 	if event.button_index == 1 and event.pressed:
-		var clicked_cell_coordinates : Vector2i = tile_map.local_to_map(tile_map.get_local_mouse_position())
+		var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
 		
-		if (is_unit_clicked(clicked_cell_coordinates)):
-			handle_unit_clicked(entities[clicked_cell_coordinates])
+		if (is_unit_clicked(grid_cell)):
+			handle_unit_clicked(entities[grid_cell])
 			return
 			
-		var data : TileData = tile_map.get_cell_tile_data(0, clicked_cell_coordinates)
-		if(data == null):
+		if(grid.is_grid_position_in_bounds(grid_cell) == false):
 			handle_click_outside_map()
 			return
 		
-		handle_tile_map_click(clicked_cell_coordinates, data)
+		handle_tile_map_click(grid_cell)
 		
 func handle_unit_clicked(unit : Unit):
 	selected_unit = unit
@@ -67,7 +62,7 @@ func try_unselect_unit():
 func handle_click_outside_map():
 	try_unselect_unit()
 	
-func handle_tile_map_click(coordinates : Vector2i, tileData : TileData):
+func handle_tile_map_click(coordinates : Vector2i):
 	try_unselect_unit()
 	
 func is_unit_clicked(map_coordinate : Vector2i):
@@ -79,9 +74,9 @@ func is_walkable(coordinates:Vector2i, type:int) -> bool:
 
 func spawn_unit():
 	var grid_sapwn_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
-	var unit_start_position = tile_map.map_to_local(grid_sapwn_position)
+	var unit_start_position = grid.map_to_local(grid_sapwn_position)
 	var unit = test_unit.instantiate() as Unit
-	tile_map.add_child(unit)
+	grid.add_child(unit)
 	unit.position = unit_start_position
 	entities[grid_sapwn_position] = unit
 
