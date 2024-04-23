@@ -12,8 +12,18 @@ func get_grid_mouse_position() -> Vector2:
 
 func get_grid_cell_under_pointer() -> Vector2i:
 	return local_to_map(get_local_mouse_position())
+	
+func grid_to_world(grid_position : Vector2i):
+	return map_to_local(grid_position)
+	
+func world_to_grid(world_position : Vector2):
+	return local_to_map(world_position)
 
 func get_cell_type(cell : Vector2i) -> Constants.TileType:
 	var data = get_cell_tile_data(0, cell)
 	var type = data.get_custom_data("type")
-	return Constants.TileType.Wall
+	return type
+
+func is_cell_walkable(cell: Vector2i) -> bool:
+	return	is_grid_position_in_bounds(cell) && \
+			get_cell_type(cell) == Constants.TileType.Ground

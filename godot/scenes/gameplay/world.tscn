@@ -22,3 +22,6 @@ script = ExtResource("4_jk1ru")
 unique_name_in_owner = true
 visible = false
 z_index = 1
+
+[node name="==Overlays==" type="Node2D" parent="TileMap"]
+unique_name_in_owner = true

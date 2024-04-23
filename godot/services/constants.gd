@@ -8,11 +8,11 @@ enum TileType {
 }
 enum MovementPattern {Pawn, Rook, Bishop, Knight}
 
-static var Movement_Pawn : Array = [Vector2.UP]
-static var Movement_Rook : Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-static var Movement_Bishop : Array = [Vector2(1,1), Vector2(-1,-1), Vector2(1,-1), Vector2(-1,1)]
-static var Movement_Knight : Array =[Vector2(1,-2), Vector2(2,-1), Vector2(2,1), Vector2(1,2), \
-							  Vector2(-1,2), Vector2(-2,1), Vector2(-2,-1), Vector2(-1,-2)]
+static var Movement_Pawn : Array = [Vector2i.UP]
+static var Movement_Rook : Array = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+static var Movement_Bishop : Array = [Vector2i(1,1), Vector2i(-1,-1), Vector2i(1,-1), Vector2i(-1,1)]
+static var Movement_Knight : Array =[Vector2i(1,-2), Vector2i(2,-1), Vector2i(2,1), Vector2i(1,2), \
+							  Vector2i(-1,2), Vector2i(-2,1), Vector2i(-2,-1), Vector2i(-1,-2)]
 							
 static func get_move_pattern_data(pattern_name : MovementPattern) -> Array:
 	match pattern_name:
