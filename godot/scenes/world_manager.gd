@@ -14,7 +14,7 @@ var room_offset : Vector2
 var grid_dimensions : Vector2i
 var entities = {}
 var selected_unit : Unit
-var spwned_walkable_overlays : Array
+var spawned_walkable_overlays = {}
 	
 func _ready():
 	grid_dimensions = room_dimensions - Vector2i.ONE
@@ -65,7 +65,15 @@ func handle_click_outside_map():
 	try_unselect_unit()
 	
 func handle_tile_map_click(coordinates : Vector2i):
+	if(selected_unit != null):
+		if(spawned_walkable_overlays.has(coordinates)):
+			move_selected_unit(grid.world_to_grid(selected_unit.position), coordinates)
 	try_unselect_unit()
+	
+func move_selected_unit(from : Vector2i, to : Vector2i):
+	entities.erase(from)
+	selected_unit.position = grid.grid_to_world(to)
+	entities[to] = selected_unit
 	
 func is_unit_clicked(map_coordinate : Vector2i):
 	return entities.keys().has(map_coordinate)
@@ -88,9 +96,9 @@ func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
 			var overlay = walkable_overlay.instantiate() as Node2D
 			overlay.position = grid.grid_to_world(move_position)
 			overlay_parent.add_child(overlay)
+			spawned_walkable_overlays[move_position] = overlay
 
 func despawn_wlakable_overlays():
-	for child in overlay_parent.get_children():
-		child.queue_free()
-		
-	#iterate over cooridantes. Apply to unit coordinate. Translate to map_to_local.
+	for overlay in spawned_walkable_overlays.values():
+		(overlay as Node2D).queue_free()
+	spawned_walkable_overlays.clear()
