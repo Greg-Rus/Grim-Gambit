@@ -1,6 +1,12 @@
 extends TileMap
 class_name Grid
 
+static var instance : Grid
+
+func _ready():
+	if(instance == null):
+		instance = self
+
 func is_grid_position_in_bounds(grid_position : Vector2i) -> bool:
 	return get_cell_tile_data(0, grid_position) != null
 

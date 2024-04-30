@@ -9,10 +9,11 @@ class_name WorldManager
 @onready var test_unit : PackedScene = preload("res://units/unit.tscn")
 @onready var walkable_overlay : PackedScene = preload("res://nodes/tile_overlay.tscn")
 @onready var overlay_parent : Node2D = %"==Overlays=="
+@onready var entity_manager : EntityManager = %Entities
 var cell_pixel_size = 16
 var room_offset : Vector2
 var grid_dimensions : Vector2i
-var entities = {}
+
 var selected_unit : Unit
 var spawned_walkable_overlays = {}
 	
@@ -33,7 +34,7 @@ func handle_mouse_click(event : InputEventMouseButton):
 		var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
 		
 		if (is_unit_clicked(grid_cell)):
-			handle_unit_clicked(entities[grid_cell])
+			handle_unit_clicked(entity_manager.get_unit_at_position(grid_cell))
 			return
 			
 		if(grid.is_grid_position_in_bounds(grid_cell) == false):
@@ -71,15 +72,13 @@ func handle_tile_map_click(coordinates : Vector2i):
 	try_unselect_unit()
 	
 func move_selected_unit(from : Vector2i, to : Vector2i):
-	entities.erase(from)
-	selected_unit.position = grid.grid_to_world(to)
-	entities[to] = selected_unit
+	selected_unit.move_to_grid_position(to)
 	
 func is_unit_clicked(map_coordinate : Vector2i):
-	return entities.keys().has(map_coordinate)
+	return entity_manager.get_unit_at_position(map_coordinate) != null
 		
 func is_walkable(coordinates:Vector2i) -> bool:
-	return grid.is_cell_walkable(coordinates) && entities.keys().has(coordinates) == false
+	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
 
 func spawn_unit():
 	var grid_sapwn_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
@@ -87,7 +86,7 @@ func spawn_unit():
 	var unit = test_unit.instantiate() as Unit
 	grid.add_child(unit)
 	unit.position = unit_start_position
-	entities[grid_sapwn_position] = unit
+	entity_manager.update_unit_position(unit, grid_sapwn_position)
 
 func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
 	for move in moves:
