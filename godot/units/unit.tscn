@@ -77,6 +77,8 @@ frame_progress = 0.965507
 script = ExtResource("1_pfvtn")
 movement_pattern = 1
 movement_distance = 4
+attack_pattern = 2
+attack_range = 4
 
 [node name="Area2D" type="Area2D" parent="."]
 

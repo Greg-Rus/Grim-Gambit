@@ -7,17 +7,13 @@ class_name WorldManager
 @onready var unit_selection_indicator : Sprite2D = %UnitSelectionIndicator
 @onready var grid : Grid = %TileMap
 @onready var test_unit : PackedScene = preload("res://units/unit.tscn")
-@onready var walkable_overlay : PackedScene = preload("res://nodes/tile_overlay.tscn")
-@onready var attackable_overlay : PackedScene = preload("res://nodes/tile_overlay_attack.tscn")
-@onready var overlay_parent : Node2D = %"==Overlays=="
-@onready var entity_manager : EntityManager = %Entities
+@onready var overlay_manager : OveralyManager = %OverlayManager
+@onready var entity_manager : EntityManager = %EntityManager
 var cell_pixel_size = 16
 var room_offset : Vector2
 var grid_dimensions : Vector2i
 
 var selected_unit : Unit
-var spawned_walkable_overlays = {}
-var spawned_attackable_overlays = {}
 	
 func _ready():
 	grid_dimensions = room_dimensions - Vector2i.ONE
@@ -29,8 +25,16 @@ func _ready():
 	spawn_unit(player_unit_position)
 
 func _input(event):
+	if selected_unit != null:
+		handle_mouse_move()
 	if event is InputEventMouseButton:
 		handle_mouse_click(event)
+		
+func handle_mouse_move():
+	var cell_under_pointer : Vector2i = grid.get_grid_cell_under_pointer()
+	if grid.is_grid_position_in_bounds(cell_under_pointer):
+		if overlay_manager.is_in_walking_range(cell_under_pointer):
+			overlay_manager.spawn_attackable_overlays(selected_unit.get_attack_pattern(), cell_under_pointer)
 		
 func handle_mouse_click(event : InputEventMouseButton):
 	if event.button_index == 1 and event.pressed:
@@ -47,9 +51,11 @@ func handle_mouse_click(event : InputEventMouseButton):
 		handle_tile_map_click(grid_cell)
 		
 func handle_unit_clicked(unit : Unit):
+	if(selected_unit == unit):
+		return
 	selected_unit = unit
 	highlight_selected_unit()
-	spawn_walkable_overlays(selected_unit.get_movement_pattern(), grid.local_to_map(selected_unit.position))
+	overlay_manager.spawn_walkable_overlays(selected_unit.get_movement_pattern(), grid.local_to_map(selected_unit.position))
 	
 func highlight_selected_unit():
 	if(selected_unit == null):
@@ -63,14 +69,14 @@ func draw_movement_pattern():
 func try_unselect_unit():
 	selected_unit = null
 	unit_selection_indicator.visible = false
-	despawn_wlakable_overlays()
+	overlay_manager.despawn_all_overlays()
 		
 func handle_click_outside_map():
 	try_unselect_unit()
 	
 func handle_tile_map_click(coordinates : Vector2i):
 	if(selected_unit != null):
-		if(spawned_walkable_overlays.has(coordinates)):
+		if(overlay_manager.spawned_walkable_overlays.has(coordinates)):
 			move_selected_unit(grid.world_to_grid(selected_unit.position), coordinates)
 	try_unselect_unit()
 	
@@ -79,12 +85,6 @@ func move_selected_unit(from : Vector2i, to : Vector2i):
 	
 func is_unit_clicked(map_coordinate : Vector2i):
 	return entity_manager.get_unit_at_position(map_coordinate) != null
-		
-func is_walkable(coordinates:Vector2i) -> bool:
-	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
-	
-func is_attackable(coordinates:Vector2i) -> bool:
-	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) != null
 
 func spawn_unit(grid_sapwn_position : Vector2i):
 	var unit_start_position = grid.map_to_local(grid_sapwn_position)
@@ -93,29 +93,4 @@ func spawn_unit(grid_sapwn_position : Vector2i):
 	unit.position = unit_start_position
 	entity_manager.update_unit_position(unit, grid_sapwn_position)
 
-func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
-	for move in moves:
-		var move_position = grid_position + move
-		if(is_walkable(move_position)):
-			var overlay = walkable_overlay.instantiate() as Node2D
-			overlay.position = grid.grid_to_world(move_position)
-			overlay_parent.add_child(overlay)
-			spawned_walkable_overlays[move_position] = overlay
-			
-func spawn_attackable_overlays(attacks : Array, grid_position : Vector2i):
-	for attack in attacks:
-		var attack_position = grid_position + attack
-		if(is_attackable(attack_position)):
-			var overlay = attackable_overlay.instantiate() as Node2D
-			overlay.position = grid.grid_to_world(attack_position)
-			overlay_parent.add_child(overlay)
-			spawned_attackable_overlays[attack_position] = overlay
 
-func despawn_wlakable_overlays():
-	for overlay in spawned_walkable_overlays.values():
-		(overlay as Node2D).queue_free()
-	spawned_walkable_overlays.clear()
-	
-	for overlay in spawned_attackable_overlays.values():
-		(overlay as Node2D).queue_free()
-	spawned_attackable_overlays.clear()

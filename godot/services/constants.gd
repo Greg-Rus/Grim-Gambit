@@ -14,7 +14,7 @@ static var Movement_Bishop : Array = [Vector2i(1,1), Vector2i(-1,-1), Vector2i(1
 static var Movement_Knight : Array =[Vector2i(1,-2), Vector2i(2,-1), Vector2i(2,1), Vector2i(1,2), \
 							  Vector2i(-1,2), Vector2i(-2,1), Vector2i(-2,-1), Vector2i(-1,-2)]
 							
-static func get_move_pattern_data(pattern_name : MovementPattern) -> Array:
+static func get_pattern_data(pattern_name : MovementPattern) -> Array:
 	match pattern_name:
 		MovementPattern.Pawn	: return Movement_Pawn
 		MovementPattern.Rook	: return Movement_Rook

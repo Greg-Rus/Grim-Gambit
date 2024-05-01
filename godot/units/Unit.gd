@@ -14,17 +14,17 @@ func move_to_grid_position(grid_coordinates : Vector2i):
 	EntityManager.instance.update_unit_position(self, grid_position)
 
 func get_movement_pattern() -> Array:
-	var moves = []
-	var pattern = Constants.get_move_pattern_data(movement_pattern)
-	for i in movement_distance:
-		for move in pattern:
-			moves.append(move * i)
-	return moves
+	var pattern_positions = []
+	var pattern = Constants.get_pattern_data(movement_pattern)
+	for i in range(1, movement_distance + 1):
+		for position in pattern:
+			pattern_positions.append(position * i)
+	return pattern_positions
 	
 func get_attack_pattern() -> Array:
-	var attacks = []
-	var pattern = Constants.get_move_pattern_data(attack_pattern)
-	for i in attack_range:
-		for attack in pattern:
-			attacks.append(attack * i)
-	return attacks
+	var pattern_positions = []
+	var pattern = Constants.get_pattern_data(attack_pattern)
+	for i in range(1, attack_range + 1):
+		for position in pattern:
+			pattern_positions.append(position * i)
+	return pattern_positions

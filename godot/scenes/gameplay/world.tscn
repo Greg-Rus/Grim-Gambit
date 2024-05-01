@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dy5m4kir8odkt"]
+[gd_scene load_steps=8 format=3 uid="uid://dy5m4kir8odkt"]
 
 [ext_resource type="Script" path="res://scenes/world_manager.gd" id="1_1vtcp"]
 [ext_resource type="PackedScene" uid="uid://ckwcca8ykokjr" path="res://scenes/ui/unit_selection_indicator.tscn" id="2_ml04k"]
 [ext_resource type="PackedScene" uid="uid://couu53mrhb624" path="res://scenes/levels/room_builder.tscn" id="3_uj6mv"]
 [ext_resource type="TileSet" uid="uid://cysdteoemn8d8" path="res://scenes/levels/crypt_tile_set.tres" id="4_85msr"]
 [ext_resource type="Script" path="res://scenes/gameplay/Grid.gd" id="4_jk1ru"]
+[ext_resource type="Script" path="res://scenes/gameplay/Overlays.gd" id="6_6by4w"]
 [ext_resource type="Script" path="res://scenes/gameplay/EntitiesManager.gd" id="6_ogdbs"]
 
 [node name="World" type="Node2D"]
@@ -24,9 +25,10 @@ unique_name_in_owner = true
 visible = false
 z_index = 1
 
-[node name="==Overlays==" type="Node2D" parent="TileMap"]
+[node name="OverlayManager" type="Node2D" parent="TileMap"]
 unique_name_in_owner = true
+script = ExtResource("6_6by4w")
 
-[node name="Entities" type="Node2D" parent="TileMap"]
+[node name="EntityManager" type="Node2D" parent="TileMap"]
 unique_name_in_owner = true
 script = ExtResource("6_ogdbs")
