@@ -19,7 +19,13 @@ func update_unit_position(unit : Unit, grid_position : Vector2i):
 	grid_to_units[grid_position] = unit
 		
 func get_unit_position(unit : Unit) -> Vector2i: #need try logic 
-	return units_to_grid[unit]
+	if units_to_grid.has(unit):
+		return units_to_grid[unit]
+	else:
+		printerr("Unit not in entity manager", unit)
+		return Vector2i.MIN
 	
 func get_unit_at_position(grid_position : Vector2i) -> Unit: #need try logic 
-	return grid_to_units[grid_position]
+	if grid_to_units.has(grid_position):
+		return grid_to_units[grid_position]
+	return null

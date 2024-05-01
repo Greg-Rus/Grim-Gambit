@@ -20,4 +20,3 @@ process_mode = 2
 visible = false
 
 [node name="World" parent="." instance=ExtResource("4_73kmm")]
-room_dimensions = Vector2i(8, 8)

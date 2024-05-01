@@ -8,6 +8,7 @@ class_name WorldManager
 @onready var grid : Grid = %TileMap
 @onready var test_unit : PackedScene = preload("res://units/unit.tscn")
 @onready var walkable_overlay : PackedScene = preload("res://nodes/tile_overlay.tscn")
+@onready var attackable_overlay : PackedScene = preload("res://nodes/tile_overlay_attack.tscn")
 @onready var overlay_parent : Node2D = %"==Overlays=="
 @onready var entity_manager : EntityManager = %Entities
 var cell_pixel_size = 16
@@ -16,6 +17,7 @@ var grid_dimensions : Vector2i
 
 var selected_unit : Unit
 var spawned_walkable_overlays = {}
+var spawned_attackable_overlays = {}
 	
 func _ready():
 	grid_dimensions = room_dimensions - Vector2i.ONE
@@ -23,7 +25,8 @@ func _ready():
 	room_offset = screen_center + Vector2(room_dimensions) * 0.5 * cell_pixel_size * -1
 
 	room_builder.make_room(room_dimensions, room_offset)
-	spawn_unit()
+	var player_unit_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
+	spawn_unit(player_unit_position)
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -79,9 +82,11 @@ func is_unit_clicked(map_coordinate : Vector2i):
 		
 func is_walkable(coordinates:Vector2i) -> bool:
 	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
+	
+func is_attackable(coordinates:Vector2i) -> bool:
+	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) != null
 
-func spawn_unit():
-	var grid_sapwn_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
+func spawn_unit(grid_sapwn_position : Vector2i):
 	var unit_start_position = grid.map_to_local(grid_sapwn_position)
 	var unit = test_unit.instantiate() as Unit
 	grid.add_child(unit)
@@ -96,8 +101,21 @@ func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
 			overlay.position = grid.grid_to_world(move_position)
 			overlay_parent.add_child(overlay)
 			spawned_walkable_overlays[move_position] = overlay
+			
+func spawn_attackable_overlays(attacks : Array, grid_position : Vector2i):
+	for attack in attacks:
+		var attack_position = grid_position + attack
+		if(is_attackable(attack_position)):
+			var overlay = attackable_overlay.instantiate() as Node2D
+			overlay.position = grid.grid_to_world(attack_position)
+			overlay_parent.add_child(overlay)
+			spawned_attackable_overlays[attack_position] = overlay
 
 func despawn_wlakable_overlays():
 	for overlay in spawned_walkable_overlays.values():
 		(overlay as Node2D).queue_free()
 	spawned_walkable_overlays.clear()
+	
+	for overlay in spawned_attackable_overlays.values():
+		(overlay as Node2D).queue_free()
+	spawned_attackable_overlays.clear()

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c53k215y8eh0e"]
+
+[ext_resource type="Texture2D" uid="uid://qtdwi5f68yhn" path="res://ui/art/TileOverlay.png" id="1_68db7"]
+
+[node name="TileOverlay" type="Sprite2D"]
+modulate = Color(1, 0, 0, 0.545098)
+texture = ExtResource("1_68db7")
