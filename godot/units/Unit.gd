@@ -6,6 +6,8 @@ class_name Unit
 @export var attack_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
 @export var attack_range : int = 1
 
+@export var is_player_controled : bool = true
+
 var grid_position : Vector2i
 
 func move_to_grid_position(grid_coordinates : Vector2i):

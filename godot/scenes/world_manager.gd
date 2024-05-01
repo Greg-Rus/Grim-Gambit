@@ -23,6 +23,9 @@ func _ready():
 	room_builder.make_room(room_dimensions, room_offset)
 	var player_unit_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
 	spawn_unit(player_unit_position)
+	var enemy_unit_position = Vector2i(grid_dimensions.x/2, 0)
+	var enemy : Unit = spawn_unit(enemy_unit_position)
+	enemy.is_player_controled = false
 
 func _input(event):
 	if selected_unit != null:
@@ -33,7 +36,7 @@ func _input(event):
 func handle_mouse_move():
 	var cell_under_pointer : Vector2i = grid.get_grid_cell_under_pointer()
 	if grid.is_grid_position_in_bounds(cell_under_pointer):
-		if overlay_manager.is_in_walking_range(cell_under_pointer):
+		if overlay_manager.is_in_walking_range(cell_under_pointer) || cell_under_pointer == selected_unit.grid_position:
 			overlay_manager.spawn_attackable_overlays(selected_unit.get_attack_pattern(), cell_under_pointer)
 		
 func handle_mouse_click(event : InputEventMouseButton):
@@ -42,6 +45,10 @@ func handle_mouse_click(event : InputEventMouseButton):
 		
 		if (is_unit_clicked(grid_cell)):
 			handle_unit_clicked(entity_manager.get_unit_at_position(grid_cell))
+			return
+			
+		if (is_enemy_clicked(grid_cell)):
+			handle_enemy_clicked(entity_manager.get_unit_at_position(grid_cell))
 			return
 			
 		if(grid.is_grid_position_in_bounds(grid_cell) == false):
@@ -55,7 +62,14 @@ func handle_unit_clicked(unit : Unit):
 		return
 	selected_unit = unit
 	highlight_selected_unit()
-	overlay_manager.spawn_walkable_overlays(selected_unit.get_movement_pattern(), grid.local_to_map(selected_unit.position))
+	overlay_manager.spawn_walkable_overlays(selected_unit.get_movement_pattern(), selected_unit.grid_position)
+	overlay_manager.spawn_attackable_overlays(selected_unit.get_attack_pattern(), selected_unit.grid_position)
+	
+func handle_enemy_clicked(unit : Unit):
+	if selected_unit == null:
+		return
+	if overlay_manager.is_in_attack_range(unit.grid_position):
+		entity_manager.destroy_unit(unit)
 	
 func highlight_selected_unit():
 	if(selected_unit == null):
@@ -84,13 +98,19 @@ func move_selected_unit(from : Vector2i, to : Vector2i):
 	selected_unit.move_to_grid_position(to)
 	
 func is_unit_clicked(map_coordinate : Vector2i):
-	return entity_manager.get_unit_at_position(map_coordinate) != null
+	var unit : Unit = entity_manager.get_unit_at_position(map_coordinate)
+	return unit != null && unit.is_player_controled
+	
+func is_enemy_clicked(map_coordinate : Vector2i):
+	var unit : Unit = entity_manager.get_unit_at_position(map_coordinate)
+	return unit != null && unit.is_player_controled == false
 
-func spawn_unit(grid_sapwn_position : Vector2i):
+func spawn_unit(grid_sapwn_position : Vector2i) -> Unit:
 	var unit_start_position = grid.map_to_local(grid_sapwn_position)
 	var unit = test_unit.instantiate() as Unit
 	grid.add_child(unit)
-	unit.position = unit_start_position
+	unit.move_to_grid_position(grid_sapwn_position)
 	entity_manager.update_unit_position(unit, grid_sapwn_position)
+	return unit
 
 

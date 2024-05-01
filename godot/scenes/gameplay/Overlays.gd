@@ -46,6 +46,7 @@ func despawn_attackable_overlays():
 	for overlay in spawned_attackable_overlays.values():
 		(overlay as Node2D).queue_free()
 	spawned_attackable_overlays.clear()
+	attack_pattern_origin = Vector2i.MAX
 	
 func is_walkable(coordinates:Vector2i) -> bool:
 	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
@@ -55,3 +56,6 @@ func is_attackable(coordinates:Vector2i) -> bool:
 
 func is_in_walking_range(coordinate:Vector2i) -> bool:
 	return spawned_walkable_overlays.has(coordinate)
+	
+func is_in_attack_range(coordinate:Vector2i) -> bool:
+	return spawned_attackable_overlays.has(coordinate)

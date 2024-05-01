@@ -29,3 +29,9 @@ func get_unit_at_position(grid_position : Vector2i) -> Unit: #need try logic
 	if grid_to_units.has(grid_position):
 		return grid_to_units[grid_position]
 	return null
+	
+func destroy_unit(unit : Unit):
+	var position = units_to_grid[unit]
+	units_to_grid.erase(unit)
+	grid_to_units.erase(position)
+	unit.queue_free()
