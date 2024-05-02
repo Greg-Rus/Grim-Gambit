@@ -9,6 +9,18 @@ func _ready():
 
 var units_to_grid = {}
 var grid_to_units = {}
+var selected_unit : Unit
+
+func select_unit(unit : Unit):
+	selected_unit = unit
+	EventBuss.unit_selected.emit(selected_unit)
+	
+func unselect_unit():
+	selected_unit = null
+	EventBuss.unit_unselected.emit()
+	
+func is_unit_selected() -> bool:
+	return selected_unit != null
 
 func update_unit_position(unit : Unit, grid_position : Vector2i):
 	if(units_to_grid.has(unit)):

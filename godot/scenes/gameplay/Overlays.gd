@@ -10,15 +10,36 @@ var spawned_walkable_overlays = {}
 var spawned_attackable_overlays = {}
 var attack_pattern_origin : Vector2i = Vector2i.MAX
 
+func _ready():
+	EventBuss.unit_unselected.connect(despawn_all_overlays)
+	EventBuss.unit_selected.connect(on_unit_selected)
+	
+func on_unit_selected(unit:Unit):
+	select_walable_cells(unit)
+	spawn_walkable_overlays(unit.get_movement_pattern(), unit.grid_position)
+	spawn_attackable_overlays(unit.get_attack_pattern(), unit.grid_position)
+	
+func select_walable_cells(unit:Unit):
+	var pattern = unit.get_attack_pattern()
+	var range = unit.movement_distance
+	var illegal_positions = []
+	for i in range(1, range + 1):
+		for position in pattern:
+			if(illegal_positions.has(position)):
+				continue
+			var move_position = unit.grid_position + (position * i)
+			if(is_walkable(move_position)):
+				spawned_walkable_overlays[move_position] = null
+			else:
+				illegal_positions.append(position)
+				
 
 func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
-	for move in moves:
-		var move_position = grid_position + move
-		if(is_walkable(move_position)):
-			var overlay = walkable_overlay.instantiate() as Node2D
-			overlay.position = grid.grid_to_world(move_position)
-			add_child(overlay)
-			spawned_walkable_overlays[move_position] = overlay
+	for position in spawned_walkable_overlays.keys():
+		var overlay = walkable_overlay.instantiate() as Node2D
+		overlay.position = grid.grid_to_world(position)
+		add_child(overlay)
+		spawned_walkable_overlays[position] = overlay
 			
 func spawn_attackable_overlays(attacks : Array, grid_position : Vector2i):
 	if(attack_pattern_origin == grid_position):
@@ -52,7 +73,7 @@ func is_walkable(coordinates:Vector2i) -> bool:
 	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
 	
 func is_attackable(coordinates:Vector2i) -> bool:
-	return grid.is_cell_walkable(coordinates) #&& entity_manager.get_unit_at_position(coordinates) != null
+	return grid.is_cell_walkable(coordinates)
 
 func is_in_walking_range(coordinate:Vector2i) -> bool:
 	return spawned_walkable_overlays.has(coordinate)

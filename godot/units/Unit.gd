@@ -5,8 +5,8 @@ class_name Unit
 @export var movement_distance : int = 1
 @export var attack_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
 @export var attack_range : int = 1
-
 @export var is_player_controled : bool = true
+@onready var entity_manager : EntityManager = %EntityManager
 
 var grid_position : Vector2i
 
@@ -16,6 +16,7 @@ func move_to_grid_position(grid_coordinates : Vector2i):
 	EntityManager.instance.update_unit_position(self, grid_position)
 
 func get_movement_pattern() -> Array:
+	return Constants.get_pattern_data(movement_pattern)
 	var pattern_positions = []
 	var pattern = Constants.get_pattern_data(movement_pattern)
 	for i in range(1, movement_distance + 1):

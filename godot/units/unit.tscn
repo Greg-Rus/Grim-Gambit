@@ -76,7 +76,7 @@ animation = &"walk"
 frame_progress = 0.965507
 script = ExtResource("1_pfvtn")
 movement_pattern = 2
-movement_distance = 5
+movement_distance = 3
 attack_pattern = 1
 
 [node name="Area2D" type="Area2D" parent="."]
