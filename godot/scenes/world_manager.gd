@@ -5,8 +5,10 @@ class_name WorldManager
 
 @onready var room_builder : RoomBuilder = %RoomBuilder
 @onready var grid : Grid = %TileMap
-@onready var test_unit : PackedScene = preload("res://units/unit.tscn")
-@onready var test_enemy : PackedScene = preload("res://units/thief.tscn")
+#@onready var test_unit : PackedScene = preload("res://units/unit.tscn")
+#@onready var test_enemy : PackedScene = preload("res://units/thief.tscn")
+@onready var test_unit : PackedScene = preload("res://units/test_unit.tscn")
+@onready var test_enemy : PackedScene = preload("res://units/test_unit.tscn")
 @onready var overlay_manager : OveralyManager = %OverlayManager
 @onready var entity_manager : EntityManager = %EntityManager
 var cell_pixel_size = 16
@@ -35,8 +37,8 @@ func spawn_random_enemies():
 		var y = randi_range(0, grid_dimensions.y)
 		var enemy_unit_position = Vector2i(x,y)
 		if(entity_manager.get_unit_at_position(enemy_unit_position) == null):
-			var enemy : Unit = spawn_unit(test_enemy, enemy_unit_position)
-			enemy.is_player_controled = false
+			var enemy : Entity = spawn_unit(test_enemy, enemy_unit_position)
+			#enemy.is_player_controled = false
 		
 func handle_mouse_move():
 	var cell_under_pointer : Vector2i = grid.get_grid_cell_under_pointer()
@@ -95,11 +97,10 @@ func is_enemy_clicked(map_coordinate : Vector2i):
 	var unit : Unit = entity_manager.get_unit_at_position(map_coordinate)
 	return unit != null && unit.is_player_controled == false
 
-func spawn_unit(prefab : PackedScene, grid_sapwn_position : Vector2i) -> Unit:
-	var unit_start_position = grid.map_to_local(grid_sapwn_position)
-	var unit = prefab.instantiate() as Unit
+func spawn_unit(prefab : PackedScene, grid_sapwn_position : Vector2i) -> Entity:
+	var unit = prefab.instantiate() as Entity
 	grid.add_child(unit)
-	unit.set_unit_position(grid_sapwn_position)
+	unit.initialize(grid_sapwn_position)
 	return unit
 
 

@@ -1,99 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://bievxt466v1ut"]
+[gd_scene load_steps=4 format=3 uid="uid://bievxt466v1ut"]
 
-[ext_resource type="Texture2D" uid="uid://db28ljbhon643" path="res://art/characters/Human_Thief.png" id="1_jrn3p"]
+[ext_resource type="SpriteFrames" uid="uid://crgpvmlf2gk5v" path="res://units/thief_animations.tres" id="1_r6cng"]
 [ext_resource type="Script" path="res://units/Unit.gd" id="2_dieta"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k56y6"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(0, 320, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y6lx5"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(32, 320, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lx6bs"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(64, 320, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2aaiq"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(0, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nf4vm"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(32, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vu14r"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(0, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_veam5"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(32, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_na4tq"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(64, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6x1td"]
-atlas = ExtResource("1_jrn3p")
-region = Rect2(96, 128, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_tietq"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k56y6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y6lx5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lx6bs")
-}],
-"loop": false,
-"name": &"die",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2aaiq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nf4vm")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vu14r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_veam5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_na4tq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6x1td")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nvnr6"]
 size = Vector2(16, 16)
 
 [node name="Unit" type="AnimatedSprite2D"]
-sprite_frames = SubResource("SpriteFrames_tietq")
+sprite_frames = ExtResource("1_r6cng")
 animation = &"die"
 script = ExtResource("2_dieta")
 movement_pattern = 2

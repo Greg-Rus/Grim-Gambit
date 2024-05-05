@@ -6,9 +6,14 @@ static var instance : EntityManager
 func _ready():
 	if(instance == null):
 		instance = self
+	EventBuss.entity_changed_cell.connect(update_entity_cell)
 
-var units_to_grid = {}
-var grid_to_units = {}
+var units_to_grid = {} #obsolete
+var grid_to_units = {} #obsolete
+
+var entity_to_cell = {}
+var cell_to_unit = {}
+
 var selected_unit : Unit
 
 func select_unit(unit : Unit):
@@ -22,13 +27,22 @@ func unselect_unit():
 func is_unit_selected() -> bool:
 	return selected_unit != null
 
-func update_unit_position(unit : Unit, grid_position : Vector2i):
+func update_unit_position(unit : Unit, grid_position : Vector2i): #obsolete
 	if(units_to_grid.has(unit)):
 		var position = units_to_grid[unit]
 		units_to_grid.erase(unit)
 		grid_to_units.erase(position)
 	units_to_grid[unit] = grid_position
 	grid_to_units[grid_position] = unit
+	
+func update_entity_cell(entity : Entity):
+	var new_cell = entity.cell
+	if(entity_to_cell.has(entity)):
+		var old_cell = entity_to_cell[entity]
+		entity_to_cell.erase(entity)
+		cell_to_unit.erase(old_cell)
+	entity_to_cell[entity] = new_cell
+	cell_to_unit[new_cell] = entity
 		
 func get_unit_position(unit : Unit) -> Vector2i:
 	if units_to_grid.has(unit):

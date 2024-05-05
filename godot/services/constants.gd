@@ -8,6 +8,9 @@ enum TileType {
 }
 enum MovementPattern {Pawn, Rook, Bishop, Knight}
 
+enum EntityComponent {Health, Movement, Attack, AnimatedSprite}
+enum EntityCondition {Dead, Obstacle, Enemy, PalyerUnit}
+
 static var Movement_Pawn : Array = [Vector2i.UP]
 static var Movement_Rook : Array = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 static var Movement_Bishop : Array = [Vector2i(1,1), Vector2i(-1,-1), Vector2i(1,-1), Vector2i(-1,1)]
