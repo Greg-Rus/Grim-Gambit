@@ -15,11 +15,11 @@ func _ready():
 	EventBuss.unit_selected.connect(on_unit_selected)
 	
 func on_unit_selected(unit:Unit):
-	select_walable_cells(unit)
+	detect_walkable_cells(unit)
 	spawn_walkable_overlays(unit.get_movement_pattern(), unit.grid_position)
 	spawn_attackable_overlays(unit.get_attack_pattern(), unit.grid_position)
 	
-func select_walable_cells(unit:Unit):
+func detect_walkable_cells(unit:Unit):
 	var pattern = unit.get_attack_pattern()
 	var range = unit.movement_distance
 	var illegal_positions = []

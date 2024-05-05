@@ -19,7 +19,7 @@ func get_grid_mouse_position() -> Vector2:
 func get_grid_cell_under_pointer() -> Vector2i:
 	return local_to_map(get_local_mouse_position())
 	
-func grid_to_world(grid_position : Vector2i):
+func grid_to_world(grid_position : Vector2i) -> Vector2:
 	return map_to_local(grid_position)
 	
 func world_to_grid(world_position : Vector2):

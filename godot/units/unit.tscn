@@ -1,77 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0ixmkkscoe8d"]
+[gd_scene load_steps=4 format=3 uid="uid://b0ixmkkscoe8d"]
 
 [ext_resource type="Script" path="res://units/Unit.gd" id="1_pfvtn"]
-[ext_resource type="Texture2D" uid="uid://dlu1m1v8dmja" path="res://art/characters/HK_Skeleton_walk_test1.png" id="1_wn2vt"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hi5qb"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c55mx"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o415p"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kf1rb"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vihcm"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sy1r0"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(80, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wr01o"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(96, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2d0q7"]
-atlas = ExtResource("1_wn2vt")
-region = Rect2(112, 0, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_tgs0t"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hi5qb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c55mx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o415p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kf1rb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vihcm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sy1r0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wr01o")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2d0q7")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 12.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://6dxmrkjcdnbk" path="res://units/test_unit_animations.tres" id="1_rco5b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nvnr6"]
 size = Vector2(16, 16)
 
 [node name="Unit" type="AnimatedSprite2D"]
-sprite_frames = SubResource("SpriteFrames_tgs0t")
+sprite_frames = ExtResource("1_rco5b")
 animation = &"walk"
 frame_progress = 0.965507
 script = ExtResource("1_pfvtn")

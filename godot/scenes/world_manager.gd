@@ -6,6 +6,7 @@ class_name WorldManager
 @onready var room_builder : RoomBuilder = %RoomBuilder
 @onready var grid : Grid = %TileMap
 @onready var test_unit : PackedScene = preload("res://units/unit.tscn")
+@onready var test_enemy : PackedScene = preload("res://units/thief.tscn")
 @onready var overlay_manager : OveralyManager = %OverlayManager
 @onready var entity_manager : EntityManager = %EntityManager
 var cell_pixel_size = 16
@@ -19,10 +20,7 @@ func _ready():
 
 	room_builder.make_room(room_dimensions, room_offset)
 	var player_unit_position = Vector2i(grid_dimensions.x/2, grid_dimensions.y)
-	spawn_unit(player_unit_position)
-	var enemy_unit_position = Vector2i(grid_dimensions.x/2, 0)
-	var enemy : Unit = spawn_unit(enemy_unit_position)
-	enemy.is_player_controled = false
+	spawn_unit(test_unit, player_unit_position)
 	spawn_random_enemies()
 
 func _input(event):
@@ -37,7 +35,7 @@ func spawn_random_enemies():
 		var y = randi_range(0, grid_dimensions.y)
 		var enemy_unit_position = Vector2i(x,y)
 		if(entity_manager.get_unit_at_position(enemy_unit_position) == null):
-			var enemy : Unit = spawn_unit(enemy_unit_position)
+			var enemy : Unit = spawn_unit(test_enemy, enemy_unit_position)
 			enemy.is_player_controled = false
 		
 func handle_mouse_move():
@@ -74,7 +72,8 @@ func handle_enemy_clicked(unit : Unit):
 	if entity_manager.is_unit_selected() == false:
 		return
 	if overlay_manager.is_in_attack_range(unit.grid_position):
-		entity_manager.destroy_unit(unit)
+		entity_manager.selected_unit.attack_unit(unit)
+		entity_manager.unselect_unit()
 		
 func handle_click_outside_map():
 	entity_manager.unselect_unit()
@@ -96,12 +95,11 @@ func is_enemy_clicked(map_coordinate : Vector2i):
 	var unit : Unit = entity_manager.get_unit_at_position(map_coordinate)
 	return unit != null && unit.is_player_controled == false
 
-func spawn_unit(grid_sapwn_position : Vector2i) -> Unit:
+func spawn_unit(prefab : PackedScene, grid_sapwn_position : Vector2i) -> Unit:
 	var unit_start_position = grid.map_to_local(grid_sapwn_position)
-	var unit = test_unit.instantiate() as Unit
+	var unit = prefab.instantiate() as Unit
 	grid.add_child(unit)
-	unit.move_to_grid_position(grid_sapwn_position)
-	entity_manager.update_unit_position(unit, grid_sapwn_position)
+	unit.set_unit_position(grid_sapwn_position)
 	return unit
 
 
