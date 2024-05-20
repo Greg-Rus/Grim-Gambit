@@ -14,40 +14,45 @@ func _ready():
 	EventBuss.unit_unselected.connect(despawn_all_overlays)
 	EventBuss.unit_selected.connect(on_unit_selected)
 	
-func on_unit_selected(unit:Unit):
+func on_unit_selected(unit:Entity):
 	detect_walkable_cells(unit)
-	spawn_walkable_overlays(unit.get_movement_pattern(), unit.grid_position)
-	spawn_attackable_overlays(unit.get_attack_pattern(), unit.grid_position)
+	spawn_walkable_overlays()
+	spawn_attackable_overlays(unit)
 	
-func detect_walkable_cells(unit:Unit):
-	var pattern = unit.get_attack_pattern()
-	var range = unit.movement_distance
+func detect_walkable_cells(unit:Entity):
+	var movement_component = unit.get_component(Constants.EntityComponent.Movement) as MovementComponent
+	if movement_component == null:
+		push_error("Trying to draw move pattern for unit that has no Movement component")
+	var pattern = movement_component.get_movement_pattern()
+	var range = movement_component.movement_distance
 	var illegal_positions = []
 	for i in range(1, range + 1):
 		for position in pattern:
 			if(illegal_positions.has(position)):
 				continue
-			var move_position = unit.grid_position + (position * i)
+			var move_position = unit.cell + (position * i)
 			if(is_walkable(move_position)):
 				spawned_walkable_overlays[move_position] = null
 			else:
 				illegal_positions.append(position)
 				
 
-func spawn_walkable_overlays(moves : Array, grid_position : Vector2i):
+func spawn_walkable_overlays():
 	for position in spawned_walkable_overlays.keys():
 		var overlay = walkable_overlay.instantiate() as Node2D
 		overlay.position = grid.grid_to_world(position)
 		add_child(overlay)
 		spawned_walkable_overlays[position] = overlay
 			
-func spawn_attackable_overlays(attacks : Array, grid_position : Vector2i):
-	if(attack_pattern_origin == grid_position):
+func spawn_attackable_overlays(unit : Entity):
+	if(attack_pattern_origin == unit.cell):
 		return
 	despawn_attackable_overlays()
-	attack_pattern_origin = grid_position
+	var attack_component = unit.get_component(Constants.EntityComponent.Attack) as AttackComponent
+	var attacks = attack_component.get_attack_pattern()
+	attack_pattern_origin = unit.cell
 	for attack in attacks:
-		var attack_position = grid_position + attack
+		var attack_position = unit.cell + attack
 		if(is_attackable(attack_position)):
 			var overlay = attackable_overlay.instantiate() as Node2D
 			overlay.position = grid.grid_to_world(attack_position)
@@ -70,7 +75,7 @@ func despawn_attackable_overlays():
 	attack_pattern_origin = Vector2i.MAX
 	
 func is_walkable(coordinates:Vector2i) -> bool:
-	return grid.is_cell_walkable(coordinates) && entity_manager.get_unit_at_position(coordinates) == null
+	return grid.is_cell_walkable(coordinates) && entity_manager.get_entity_at_position(coordinates) == null
 	
 func is_attackable(coordinates:Vector2i) -> bool:
 	return grid.is_cell_walkable(coordinates)

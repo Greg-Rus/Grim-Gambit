@@ -2,7 +2,7 @@ extends Node2D
 class_name BaseComponent
 
 var entity : Entity
-var component_name : Constants.EntityComponent = Constants.EntityComponent.Health
+@export var component_name : Constants.EntityComponent = Constants.EntityComponent.None
 
 func _ready():
 	entity = get_parent()

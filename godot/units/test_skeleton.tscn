@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4s5hkv2j5fwi"]
+
+[ext_resource type="Script" path="res://Entity.gd" id="1_4a44f"]
+[ext_resource type="PackedScene" uid="uid://dxkf4q5w2at2e" path="res://components/health.tscn" id="2_7lj3o"]
+[ext_resource type="PackedScene" uid="uid://bii0tlxnivhy7" path="res://components/movement.tscn" id="3_urwo7"]
+[ext_resource type="PackedScene" uid="uid://cg2ntkthbakgj" path="res://components/attack.tscn" id="4_wax8p"]
+[ext_resource type="PackedScene" uid="uid://btdwk3gtb5rgq" path="res://components/animated_sprite.tscn" id="5_fyt2v"]
+[ext_resource type="SpriteFrames" uid="uid://6dxmrkjcdnbk" path="res://units/test_unit_animations.tres" id="6_facyk"]
+
+[node name="Entity" type="Node2D"]
+script = ExtResource("1_4a44f")
+cell = null
+
+[node name="Health" parent="." instance=ExtResource("2_7lj3o")]
+
+[node name="Movement" parent="." instance=ExtResource("3_urwo7")]
+movement_pattern = 1
+movement_distance = 3
+
+[node name="Attack" parent="." instance=ExtResource("4_wax8p")]
+attack_pattern = 2
+
+[node name="AnimatedSprite2" parent="." instance=ExtResource("5_fyt2v")]
+z_index = 10
+
+[node name="AnimatedSprite2D" parent="AnimatedSprite2" index="0"]
+sprite_frames = ExtResource("6_facyk")
+animation = &"walk"
+
+[editable path="AnimatedSprite2"]

@@ -7,6 +7,10 @@ class_name MovementComponent
 
 var tween : Tween
 
+func _ready():
+	component_name = Constants.EntityComponent.Movement
+	super._ready()
+
 func _register_self():
 	entity.register_component(component_name, self)
 
@@ -46,4 +50,4 @@ func on_arrived_at_destination(destination:Vector2i):
 	tween = null
 	
 func get_animated_sprite():
-	entity.get_component(Constants.EntityComponent.AnimatedSprite) as AnimatedSprite2D
+	return entity.get_component(Constants.EntityComponent.Animated_Sprite) as AnimatedSprite2D
