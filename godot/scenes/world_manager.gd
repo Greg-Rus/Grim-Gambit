@@ -87,8 +87,7 @@ func handle_tile_map_click(coordinates : Vector2i):
 	entity_manager.unselect_unit()
 	
 func move_selected_unit(from : Vector2i, to : Vector2i):
-	var movement = entity_manager.selected_unit.get_component(Constants.EntityComponent.Movement) as MovementComponent
-	movement.animate_move(to)
+	MoveCommand.new().setup(entity_manager.selected_unit, to).execute()
 	
 func is_unit_clicked(map_coordinate : Vector2i):
 	var entity : Entity = entity_manager.get_entity_at_position(map_coordinate)
