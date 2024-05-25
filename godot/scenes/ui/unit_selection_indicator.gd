@@ -4,7 +4,7 @@ func _ready():
 	EventBuss.unit_selected.connect(on_unit_selected)
 	EventBuss.unit_unselected.connect(on_unit_unselected)
 	
-func on_unit_selected(unit : Unit):
+func on_unit_selected(unit : Entity):
 	position = unit.position
 	visible = true
 	
