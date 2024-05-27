@@ -25,8 +25,6 @@ func _ready():
 	spawn_random_enemies()
 
 func _input(event):
-	#if entity_manager.is_unit_selected():
-		#handle_mouse_move()
 	if event is InputEventMouseButton:
 		handle_mouse_click(event)
 		
@@ -39,35 +37,16 @@ func spawn_random_enemies():
 			var enemy : Entity = spawn_entity(test_enemy, enemy_unit_position)
 			enemy.conditions.append(Constants.EntityCondition.Enemy)
 		
-func handle_mouse_move():
-	var cell_under_pointer : Vector2i = grid.get_grid_cell_under_pointer()
-	if grid.is_grid_position_in_bounds(cell_under_pointer):
-		if overlay_manager.is_in_walking_range(cell_under_pointer) || \
-		cell_under_pointer == State.selected_unit.cell:
-			overlay_manager.spawn_attackable_overlays(State.selected_unit)
-		
 func handle_mouse_click(event : InputEventMouseButton):
 	if event.button_index == 1 and event.pressed:
 		var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
-		
-		if (is_unit_clicked(grid_cell)):
-			handle_unit_clicked(entity_manager.get_entity_at_position(grid_cell))
-			return
 			
 		if (is_enemy_clicked(grid_cell)):
 			handle_enemy_clicked(entity_manager.get_entity_at_position(grid_cell))
 			return
-			
-		if(grid.is_grid_position_in_bounds(grid_cell) == false):
-			handle_click_outside_map()
-			return
+		
 		
 		handle_tile_map_click(grid_cell)
-		
-func handle_unit_clicked(unit : Entity):
-	if(State.selected_unit == unit):
-		return
-	entity_manager.select_unit(unit)
 		
 func handle_enemy_clicked(entity : Entity):
 	if entity_manager.is_unit_selected() == false:
@@ -75,16 +54,11 @@ func handle_enemy_clicked(entity : Entity):
 	if overlay_manager.is_in_attack_range(entity.cell):
 		var attack = State.selected_unit.get_component(Constants.EntityComponent.Attack) as AttackComponent
 		attack.animate_attack(entity)
-		entity_manager.unselect_unit()
-		
-func handle_click_outside_map():
-	entity_manager.unselect_unit()
 	
 func handle_tile_map_click(coordinates : Vector2i):
 	if entity_manager.is_unit_selected():
 		if(overlay_manager.spawned_walkable_overlays.has(coordinates)):
 			move_selected_unit(grid.world_to_grid(State.selected_unit.position), coordinates)
-	entity_manager.unselect_unit()
 	
 func move_selected_unit(from : Vector2i, to : Vector2i):
 	MoveCommand.new().setup(State.selected_unit, to).execute()

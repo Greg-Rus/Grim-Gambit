@@ -21,6 +21,8 @@ func on_unit_selected(unit:Entity):
 	spawn_attackable_overlays(unit)
 	
 func on_pointer_changed_cell(cell_under_pointer : Vector2i):
+	if State.selected_unit == null:
+		return
 	if is_in_walking_range(cell_under_pointer) || cell_under_pointer == State.selected_unit.cell:
 			spawn_attackable_overlays(State.selected_unit)
 	
