@@ -13,11 +13,16 @@ var attack_pattern_origin : Vector2i = Vector2i.MAX
 func _ready():
 	EventBuss.unit_unselected.connect(despawn_all_overlays)
 	EventBuss.unit_selected.connect(on_unit_selected)
+	EventBuss.pointer_cell_changed.connect(on_pointer_changed_cell)
 	
 func on_unit_selected(unit:Entity):
 	detect_walkable_cells(unit)
 	spawn_walkable_overlays()
 	spawn_attackable_overlays(unit)
+	
+func on_pointer_changed_cell(cell_under_pointer : Vector2i):
+	if is_in_walking_range(cell_under_pointer) || cell_under_pointer == State.selected_unit.cell:
+			spawn_attackable_overlays(State.selected_unit)
 	
 func detect_walkable_cells(unit:Entity):
 	var movement_component = unit.get_component(Constants.EntityComponent.Movement) as MovementComponent

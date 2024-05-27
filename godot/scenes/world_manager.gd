@@ -25,8 +25,8 @@ func _ready():
 	spawn_random_enemies()
 
 func _input(event):
-	if entity_manager.is_unit_selected():
-		handle_mouse_move()
+	#if entity_manager.is_unit_selected():
+		#handle_mouse_move()
 	if event is InputEventMouseButton:
 		handle_mouse_click(event)
 		
@@ -43,8 +43,8 @@ func handle_mouse_move():
 	var cell_under_pointer : Vector2i = grid.get_grid_cell_under_pointer()
 	if grid.is_grid_position_in_bounds(cell_under_pointer):
 		if overlay_manager.is_in_walking_range(cell_under_pointer) || \
-		cell_under_pointer == entity_manager.selected_unit.cell:
-			overlay_manager.spawn_attackable_overlays(entity_manager.selected_unit)
+		cell_under_pointer == State.selected_unit.cell:
+			overlay_manager.spawn_attackable_overlays(State.selected_unit)
 		
 func handle_mouse_click(event : InputEventMouseButton):
 	if event.button_index == 1 and event.pressed:
@@ -65,7 +65,7 @@ func handle_mouse_click(event : InputEventMouseButton):
 		handle_tile_map_click(grid_cell)
 		
 func handle_unit_clicked(unit : Entity):
-	if(entity_manager.selected_unit == unit):
+	if(State.selected_unit == unit):
 		return
 	entity_manager.select_unit(unit)
 		
@@ -73,7 +73,7 @@ func handle_enemy_clicked(entity : Entity):
 	if entity_manager.is_unit_selected() == false:
 		return
 	if overlay_manager.is_in_attack_range(entity.cell):
-		var attack = entity_manager.selected_unit.get_component(Constants.EntityComponent.Attack) as AttackComponent
+		var attack = State.selected_unit.get_component(Constants.EntityComponent.Attack) as AttackComponent
 		attack.animate_attack(entity)
 		entity_manager.unselect_unit()
 		
@@ -83,11 +83,11 @@ func handle_click_outside_map():
 func handle_tile_map_click(coordinates : Vector2i):
 	if entity_manager.is_unit_selected():
 		if(overlay_manager.spawned_walkable_overlays.has(coordinates)):
-			move_selected_unit(grid.world_to_grid(entity_manager.selected_unit.position), coordinates)
+			move_selected_unit(grid.world_to_grid(State.selected_unit.position), coordinates)
 	entity_manager.unselect_unit()
 	
 func move_selected_unit(from : Vector2i, to : Vector2i):
-	MoveCommand.new().setup(entity_manager.selected_unit, to).execute()
+	MoveCommand.new().setup(State.selected_unit, to).execute()
 	
 func is_unit_clicked(map_coordinate : Vector2i):
 	var entity : Entity = entity_manager.get_entity_at_position(map_coordinate)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy5m4kir8odkt"]
+[gd_scene load_steps=9 format=3 uid="uid://dy5m4kir8odkt"]
 
 [ext_resource type="Script" path="res://scenes/world_manager.gd" id="1_1vtcp"]
 [ext_resource type="PackedScene" uid="uid://ckwcca8ykokjr" path="res://scenes/ui/unit_selection_indicator.tscn" id="2_ml04k"]
+[ext_resource type="PackedScene" uid="uid://ckrtb5y0o3v7u" path="res://services/input_handler.tscn" id="3_mgiqr"]
 [ext_resource type="PackedScene" uid="uid://couu53mrhb624" path="res://scenes/levels/room_builder.tscn" id="3_uj6mv"]
 [ext_resource type="TileSet" uid="uid://cysdteoemn8d8" path="res://scenes/levels/crypt_tile_set.tres" id="4_85msr"]
 [ext_resource type="Script" path="res://scenes/gameplay/Grid.gd" id="4_jk1ru"]
@@ -13,6 +14,8 @@ script = ExtResource("1_1vtcp")
 
 [node name="RoomBuilder" parent="." instance=ExtResource("3_uj6mv")]
 unique_name_in_owner = true
+
+[node name="InputHandler" parent="." instance=ExtResource("3_mgiqr")]
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true

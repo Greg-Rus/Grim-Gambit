@@ -11,18 +11,16 @@ func _ready():
 var entity_to_cell = {}
 var cell_to_entity = {}
 
-var selected_unit : Entity
-
 func select_unit(entity : Entity):
-	selected_unit = entity
-	EventBuss.unit_selected.emit(selected_unit)
+	State.selected_unit = entity
+	EventBuss.unit_selected.emit(entity)
 	
 func unselect_unit():
-	selected_unit = null
+	State.selected_unit = null
 	EventBuss.unit_unselected.emit()
 	
 func is_unit_selected() -> bool:
-	return selected_unit != null
+	return State.selected_unit != null
 	
 func update_entity_cell(entity : Entity):
 	var new_cell = entity.cell
