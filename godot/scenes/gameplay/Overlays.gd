@@ -14,6 +14,16 @@ func _ready():
 	EventBuss.unit_unselected.connect(despawn_all_overlays)
 	EventBuss.unit_selected.connect(on_unit_selected)
 	EventBuss.pointer_cell_changed.connect(on_pointer_changed_cell)
+	EventBuss.enemy_selected.connect(on_enemy_selected)
+	EventBuss.ground_tile_selected.connect(on_ground_tile_selected)
+	
+func on_ground_tile_selected(coordiantes : Vector2i):
+	if spawned_walkable_overlays.has(coordiantes):
+		MoveCommand.new().setup(State.selected_unit, coordiantes).execute()
+	
+func on_enemy_selected(enemy : Entity):
+	if spawned_attackable_overlays.has(enemy.cell):
+		AttackCommand.new().setup(State.selected_unit, enemy).execute()
 	
 func on_unit_selected(unit:Entity):
 	detect_walkable_cells(unit)

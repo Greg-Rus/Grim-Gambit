@@ -41,7 +41,6 @@ func animate_attack(enemy : Entity):
 	tween.tween_callback(func(): attack_complete())
 	
 func attack_hit(enemy : Entity):
-	#if enemy.has_component(Constants.EntityComponent.Health):
 	var enemy_health = enemy.get_component(Constants.EntityComponent.Health) as HealthComponent
 	enemy_health.take_damage(damage)
 

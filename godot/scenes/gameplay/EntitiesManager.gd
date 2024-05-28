@@ -16,7 +16,12 @@ func select_unit(entity : Entity):
 	State.selected_unit = entity
 	EventBuss.unit_selected.emit(entity)
 	
+func select_enemy(entity : Entity):
+	EventBuss.enemy_selected.emit(entity)
+	
 func unselect_unit():
+	if State.selected_unit == null:
+		return
 	State.selected_unit = null
 	EventBuss.unit_unselected.emit()
 	
@@ -34,9 +39,12 @@ func update_entity_cell(entity : Entity):
 	
 func on_cell_click(coordiantes : Vector2i):
 	var clicked_entity : Entity = get_entity_at_position(coordiantes)
+	if clicked_entity == State.selected_unit:
+		return
+	
 	if clicked_entity == null:
-		if State.selected_unit != null:
-			unselect_unit()
+		EventBuss.ground_tile_selected.emit(coordiantes)
+		unselect_unit()
 		return
 
 	if clicked_entity.conditions.has(Constants.EntityCondition.Player_Unit):
@@ -44,6 +52,7 @@ func on_cell_click(coordiantes : Vector2i):
 		return
 		
 	if clicked_entity.conditions.has(Constants.EntityCondition.Enemy):
+		select_enemy(clicked_entity)
 		unselect_unit()
 		return
 		

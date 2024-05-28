@@ -24,9 +24,9 @@ func _ready():
 	player_unit.conditions.append(Constants.EntityCondition.Player_Unit)
 	spawn_random_enemies()
 
-func _input(event):
-	if event is InputEventMouseButton:
-		handle_mouse_click(event)
+#func _input(event):
+	#if event is InputEventMouseButton:
+		#handle_mouse_click(event)
 		
 func spawn_random_enemies():
 	for i in 8:
@@ -37,16 +37,16 @@ func spawn_random_enemies():
 			var enemy : Entity = spawn_entity(test_enemy, enemy_unit_position)
 			enemy.conditions.append(Constants.EntityCondition.Enemy)
 		
-func handle_mouse_click(event : InputEventMouseButton):
-	if event.button_index == 1 and event.pressed:
-		var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
+#func handle_mouse_click(event : InputEventMouseButton):
+	#if event.button_index == 1 and event.pressed:
+		#var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
 			
-		if (is_enemy_clicked(grid_cell)):
-			handle_enemy_clicked(entity_manager.get_entity_at_position(grid_cell))
-			return
+		#if (is_enemy_clicked(grid_cell)):
+			#handle_enemy_clicked(entity_manager.get_entity_at_position(grid_cell))
+			#return
 		
 		
-		handle_tile_map_click(grid_cell)
+		#handle_tile_map_click(grid_cell)
 		
 func handle_enemy_clicked(entity : Entity):
 	if entity_manager.is_unit_selected() == false:
