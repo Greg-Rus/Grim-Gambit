@@ -23,10 +23,6 @@ func _ready():
 	var player_unit = spawn_entity(test_unit, player_unit_position)
 	player_unit.conditions.append(Constants.EntityCondition.Player_Unit)
 	spawn_random_enemies()
-
-#func _input(event):
-	#if event is InputEventMouseButton:
-		#handle_mouse_click(event)
 		
 func spawn_random_enemies():
 	for i in 8:
@@ -36,45 +32,9 @@ func spawn_random_enemies():
 		if(entity_manager.get_entity_at_position(enemy_unit_position) == null):
 			var enemy : Entity = spawn_entity(test_enemy, enemy_unit_position)
 			enemy.conditions.append(Constants.EntityCondition.Enemy)
-		
-#func handle_mouse_click(event : InputEventMouseButton):
-	#if event.button_index == 1 and event.pressed:
-		#var grid_cell : Vector2i = grid.get_grid_cell_under_pointer()
-			
-		#if (is_enemy_clicked(grid_cell)):
-			#handle_enemy_clicked(entity_manager.get_entity_at_position(grid_cell))
-			#return
-		
-		
-		#handle_tile_map_click(grid_cell)
-		
-func handle_enemy_clicked(entity : Entity):
-	if entity_manager.is_unit_selected() == false:
-		return
-	if overlay_manager.is_in_attack_range(entity.cell):
-		var attack = State.selected_unit.get_component(Constants.EntityComponent.Attack) as AttackComponent
-		attack.animate_attack(entity)
-	
-func handle_tile_map_click(coordinates : Vector2i):
-	if entity_manager.is_unit_selected():
-		if(overlay_manager.spawned_walkable_overlays.has(coordinates)):
-			move_selected_unit(grid.world_to_grid(State.selected_unit.position), coordinates)
-	
-func move_selected_unit(from : Vector2i, to : Vector2i):
-	MoveCommand.new().setup(State.selected_unit, to).execute()
-	
-func is_unit_clicked(map_coordinate : Vector2i):
-	var entity : Entity = entity_manager.get_entity_at_position(map_coordinate)
-	return entity != null && entity.conditions.has(Constants.EntityCondition.Player_Unit)
-	
-func is_enemy_clicked(map_coordinate : Vector2i):
-	var entity : Entity = entity_manager.get_entity_at_position(map_coordinate)
-	return entity != null && entity.conditions.has(Constants.EntityCondition.Enemy)
 
 func spawn_entity(prefab : PackedScene, grid_sapwn_position : Vector2i) -> Entity:
 	var entity = prefab.instantiate() as Entity
 	grid.add_child(entity)
 	entity.initialize(grid_sapwn_position)
 	return entity
-
-

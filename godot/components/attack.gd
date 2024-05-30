@@ -14,6 +14,9 @@ func _ready():
 func _register_self():
 	entity.register_component(component_name, self)
 	
+func calculate_attack_zone():
+	pass
+	
 func get_attack_pattern() -> Array:
 	var pattern_positions = []
 	var pattern = Constants.get_pattern_data(attack_pattern)

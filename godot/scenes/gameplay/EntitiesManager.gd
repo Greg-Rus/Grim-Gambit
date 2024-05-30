@@ -6,6 +6,7 @@ static var instance : EntityManager
 func _ready():
 	if(instance == null):
 		instance = self
+	ServiceLocator.entity_manager = self
 	EventBuss.entity_changed_cell.connect(update_entity_cell)
 	EventBuss.pointer_click_cell.connect(on_cell_click)
 

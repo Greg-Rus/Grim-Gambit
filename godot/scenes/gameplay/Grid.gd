@@ -4,6 +4,7 @@ class_name Grid
 static var instance : Grid
 
 func _ready():
+	ServiceLocator.grid_manager = self
 	if(instance == null):
 		instance = self
 

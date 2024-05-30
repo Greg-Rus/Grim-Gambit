@@ -21,6 +21,7 @@ UserSettings="*res://settings/user_settings.gd"
 SoundService="*res://services/sound_service.tscn"
 EventBuss="*res://scripts/EventBuss.gd"
 State="*res://services/state.gd"
+ServiceLocator="*res://services/service_locator.gd"
 
 [display]
 

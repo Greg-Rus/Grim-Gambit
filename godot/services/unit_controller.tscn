@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmcv6pq7nie5c"]
+
+[ext_resource type="Script" path="res://services/unit_controller.gd" id="1_ljfwn"]
+
+[node name="UnitController" type="Node"]
+script = ExtResource("1_ljfwn")
