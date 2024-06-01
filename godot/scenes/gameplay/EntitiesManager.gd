@@ -52,7 +52,7 @@ func on_cell_click(coordiantes : Vector2i):
 		select_unit(clicked_entity)
 		return
 		
-	if clicked_entity.conditions.has(Constants.EntityCondition.Enemy):
+	if clicked_entity.conditions.has(Constants.EntityCondition.Enemy) && clicked_entity.conditions.has(Constants.EntityCondition.Dead) == false:
 		select_enemy(clicked_entity)
 		unselect_unit()
 		return
