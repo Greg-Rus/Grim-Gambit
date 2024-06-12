@@ -1,7 +1,7 @@
 extends BaseComponent
 class_name MovementComponent
 
-@export var movement_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
+@export var movement_pattern : Constants.Pattern = Constants.Pattern.Pawn
 @export var movement_distance : int = 1
 @export var movement_animation_speed : float = 60
 

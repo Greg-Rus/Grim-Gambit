@@ -20,10 +20,20 @@ func select_unit(entity : Entity):
 func select_enemy(entity : Entity):
 	EventBuss.enemy_selected.emit(entity)
 	
+func select_corpse(entity : Entity):
+	EventBuss.corpse_selected.emit(entity)
+	State.selected_corpse = entity
+	
 func unselect_unit():
 	if State.selected_unit == null:
 		return
 	State.selected_unit = null
+	EventBuss.unit_unselected.emit()
+	
+func unselect_corpse():
+	if State.selected_corpse == null:
+		return
+	State.selected_corpse = null
 	EventBuss.unit_unselected.emit()
 	
 func is_unit_selected() -> bool:
@@ -46,14 +56,22 @@ func on_cell_click(coordiantes : Vector2i):
 	if clicked_entity == null:
 		EventBuss.ground_tile_selected.emit(coordiantes)
 		unselect_unit()
+		unselect_corpse()
 		return
 
 	if clicked_entity.conditions.has(Constants.EntityCondition.Player_Unit):
 		select_unit(clicked_entity)
+		unselect_corpse()
 		return
 		
 	if clicked_entity.conditions.has(Constants.EntityCondition.Enemy) && clicked_entity.conditions.has(Constants.EntityCondition.Dead) == false:
 		select_enemy(clicked_entity)
+		unselect_unit()
+		unselect_corpse()
+		return
+		
+	if clicked_entity.conditions.has(Constants.EntityCondition.Enemy) && clicked_entity.conditions.has(Constants.EntityCondition.Dead) == true:
+		select_corpse(clicked_entity)
 		unselect_unit()
 		return
 		
@@ -72,3 +90,10 @@ func get_entity_at_position(grid_position : Vector2i) -> Entity:
 func is_unit_clicked(map_coordinate : Vector2i):
 	var entity : Entity = get_entity_at_position(map_coordinate)
 	return entity != null && entity.conditions.has(Constants.EntityCondition.Player_Unit)
+	
+func remove_entity(entity: Entity):
+	if cell_to_entity.has(entity.cell):
+		cell_to_entity.erase(entity.cell)
+	if(entity_to_cell.has(entity)):
+		entity_to_cell.erase(Entity)
+	entity.queue_free()

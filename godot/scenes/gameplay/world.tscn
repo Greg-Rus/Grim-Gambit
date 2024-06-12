@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dy5m4kir8odkt"]
+[gd_scene load_steps=21 format=3 uid="uid://dy5m4kir8odkt"]
 
 [ext_resource type="Script" path="res://scenes/world_manager.gd" id="1_1vtcp"]
 [ext_resource type="PackedScene" uid="uid://ckwcca8ykokjr" path="res://scenes/ui/unit_selection_indicator.tscn" id="2_ml04k"]
@@ -7,8 +7,34 @@
 [ext_resource type="TileSet" uid="uid://cysdteoemn8d8" path="res://scenes/levels/crypt_tile_set.tres" id="4_85msr"]
 [ext_resource type="PackedScene" uid="uid://cmcv6pq7nie5c" path="res://services/unit_controller.tscn" id="4_aot1s"]
 [ext_resource type="Script" path="res://scenes/gameplay/Grid.gd" id="4_jk1ru"]
+[ext_resource type="PackedScene" uid="uid://cr5idg0ue4i3f" path="res://services/unit_spawner.tscn" id="5_yjurg"]
 [ext_resource type="Script" path="res://scenes/gameplay/Overlays.gd" id="6_6by4w"]
 [ext_resource type="Script" path="res://scenes/gameplay/EntitiesManager.gd" id="6_ogdbs"]
+[ext_resource type="Theme" uid="uid://ch0lbnumiy5qp" path="res://ui/paper_theme.tres" id="10_f6jeg"]
+[ext_resource type="Script" path="res://scenes/gameplay/UnitCreationPanel.gd" id="10_i2kdj"]
+[ext_resource type="ButtonGroup" uid="uid://odfahjnslo8x" path="res://ui/attack_pattern_selection_buttons.tres" id="11_psryn"]
+[ext_resource type="ButtonGroup" uid="uid://b8o0x4sixrvvw" path="res://ui/move_pattern_selection_buttons.tres" id="12_el1un"]
+[ext_resource type="Texture2D" uid="uid://76sbs48tirhr" path="res://ui/art/Spritesheet_UI_Paper.png" id="12_rmo5u"]
+[ext_resource type="Texture2D" uid="uid://bo0jj8yf0oajc" path="res://ui/art/Spritesheet_UI_Paper_Animation_Button_01.png" id="15_gvg52"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qsilv"]
+texture = ExtResource("12_rmo5u")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(160, 256, 32, 32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_e4oyh"]
+font_size = 32
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x753a"]
+texture = ExtResource("15_gvg52")
+region_rect = Rect2(112, 128, 64, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2nf3w"]
+texture = ExtResource("15_gvg52")
+region_rect = Rect2(208, 128, 64, 32)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1vtcp")
@@ -19,6 +45,8 @@ unique_name_in_owner = true
 [node name="InputHandler" parent="." instance=ExtResource("3_mgiqr")]
 
 [node name="UnitController" parent="." instance=ExtResource("4_aot1s")]
+
+[node name="UnitSpawner" parent="." instance=ExtResource("5_yjurg")]
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
@@ -37,4 +65,218 @@ script = ExtResource("6_6by4w")
 
 [node name="EntityManager" type="Node2D" parent="TileMap"]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("6_ogdbs")
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+script = ExtResource("10_i2kdj")
+
+[node name="Panel" type="Panel" parent="GameUI"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = -131.0
+offset_bottom = 170.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+theme = ExtResource("10_f6jeg")
+
+[node name="AttackPatternLabel" type="Label" parent="GameUI/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -71.5
+offset_right = 72.5
+offset_bottom = 43.0
+grow_horizontal = 2
+theme = ExtResource("10_f6jeg")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Attack Pattern"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MovePatternLabel" type="Label" parent="GameUI/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -71.5
+offset_top = 119.0
+offset_right = 72.5
+offset_bottom = 162.0
+grow_horizontal = 2
+theme = ExtResource("10_f6jeg")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Move Pattern"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackPatternButtons" type="HBoxContainer" parent="GameUI/Panel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 40.0
+offset_right = 163.0
+offset_bottom = 74.0
+theme = ExtResource("10_f6jeg")
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Bishop" type="Button" parent="GameUI/Panel/AttackPatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("11_psryn")
+text = "B"
+
+[node name="Knight" type="Button" parent="GameUI/Panel/AttackPatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("11_psryn")
+text = "K"
+
+[node name="Rook" type="Button" parent="GameUI/Panel/AttackPatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("11_psryn")
+text = "R"
+
+[node name="Queen" type="Button" parent="GameUI/Panel/AttackPatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("11_psryn")
+text = "Q"
+
+[node name="AttackRangeButtons" type="HBoxContainer" parent="GameUI/Panel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 81.0
+offset_right = 69.0
+offset_bottom = 112.0
+theme = ExtResource("10_f6jeg")
+theme_override_constants/separation = 8
+
+[node name="Minus" type="Button" parent="GameUI/Panel/AttackRangeButtons"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="Label" type="Label" parent="GameUI/Panel/AttackRangeButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_qsilv")
+text = "0
+"
+label_settings = SubResource("LabelSettings_e4oyh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Plus" type="Button" parent="GameUI/Panel/AttackRangeButtons"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="MovePatternButtons" type="HBoxContainer" parent="GameUI/Panel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 163.0
+offset_right = 166.0
+offset_bottom = 197.0
+theme = ExtResource("10_f6jeg")
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Bishop" type="Button" parent="GameUI/Panel/MovePatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+toggle_mode = true
+button_group = ExtResource("12_el1un")
+text = "B"
+
+[node name="Knight" type="Button" parent="GameUI/Panel/MovePatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+toggle_mode = true
+button_group = ExtResource("12_el1un")
+text = "K"
+
+[node name="Rook" type="Button" parent="GameUI/Panel/MovePatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+toggle_mode = true
+button_group = ExtResource("12_el1un")
+text = "R"
+
+[node name="Queen" type="Button" parent="GameUI/Panel/MovePatternButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("10_f6jeg")
+toggle_mode = true
+button_group = ExtResource("12_el1un")
+text = "Q"
+
+[node name="MoveRangeButtons" type="HBoxContainer" parent="GameUI/Panel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 204.0
+offset_right = 94.0
+offset_bottom = 238.0
+theme = ExtResource("10_f6jeg")
+theme_override_constants/separation = 8
+
+[node name="Minus" type="Button" parent="GameUI/Panel/MoveRangeButtons"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="Label" type="Label" parent="GameUI/Panel/MoveRangeButtons"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_qsilv")
+text = "0
+"
+label_settings = SubResource("LabelSettings_e4oyh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Plus" type="Button" parent="GameUI/Panel/MoveRangeButtons"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="CastButton" type="Button" parent="GameUI/Panel"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 247.0
+offset_right = 138.0
+offset_bottom = 287.0
+theme_override_colors/font_color = Color(0, 0.467585, 0.423695, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxTexture_x753a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_x753a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2nf3w")
+text = "CAST!"

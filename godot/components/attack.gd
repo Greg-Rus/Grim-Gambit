@@ -1,7 +1,7 @@
 extends BaseComponent
 class_name AttackComponent
 
-@export var attack_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
+@export var attack_pattern : Constants.Pattern = Constants.Pattern.Pawn
 @export var attack_range : int = 1
 @export var damage : int = 1
 

@@ -1,9 +1,9 @@
 extends AnimatedSprite2D
 class_name Unit
 
-@export var movement_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
+@export var movement_pattern : Constants.Pattern = Constants.Pattern.Pawn
 @export var movement_distance : int = 1
-@export var attack_pattern : Constants.MovementPattern = Constants.MovementPattern.Pawn
+@export var attack_pattern : Constants.Pattern = Constants.Pattern.Pawn
 @export var attack_range : int = 1
 @export var is_player_controled : bool = true
 @export var is_alive : bool = true
